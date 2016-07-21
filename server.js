@@ -39,7 +39,8 @@ app.post('/webhook', function(req, res) {
         if (message.message.text) {
           var text = message.message.text;
           console.log(text); // In tin nhắn người dùng
-          sendMessage(senderId, "Tui là bot đây he123he: " + text);
+          //sendMessage(senderId, "Tui là bot đây he123he: " + text);
+		  sendGenericMessage(senderId);
         }
       }
     }
@@ -66,6 +67,55 @@ function sendMessage(senderId, message) {
       },
     }
   });
+}
+
+function sendGenericMessage(sender) {
+    messageData = {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+                "elements": [{
+                    "title": "First card",
+                    "subtitle": "Element #1 of an hscroll",
+                    "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
+                    "buttons": [{
+                        "type": "web_url",
+                        "url": "https://www.messenger.com",
+                        "title": "web url"
+                    }, {
+                        "type": "postback",
+                        "title": "Postback",
+                        "payload": "Payload for first element in a generic bubble",
+                    }],
+                }, {
+                    "title": "Second card",
+                    "subtitle": "Element #2 of an hscroll",
+                    "image_url": "http://messengerdemo.parseapp.com/img/gearvr.png",
+                    "buttons": [{
+                        "type": "postback",
+                        "title": "Postback",
+                        "payload": "Payload for second element in a generic bubble",
+                    }],
+                }]
+            }
+        }
+    }
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token: "EAANvzUCgqTYBAOpSQLWhNMvFNA2QZAquBeFfkd57dHeH1jgcm5gWQ2wjv2AP9t1fwO1VCNjA6zXwCrbGWFgosjMXXlEa7Vo375a0fB96CVY1uY0ulzP6wyClL7OKujv39Igc4x74VdCIIJVZBYZAcLXYDwfqyBZCfrJgZBSoqsgZDZD"},
+        method: 'POST',
+        json: {
+            recipient: {id:sender},
+            message: messageData,
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending messages: ', error)
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error)
+        }
+    })
 }
 
 app.set('port', process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3002);
