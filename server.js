@@ -39,8 +39,8 @@ app.post('/webhook', function(req, res) {
         if (message.message.text) {
           var text = message.message.text;
           console.log(text); // In tin nhắn người dùng
-          //sendMessage(senderId, "Tui là bot đây he123he: " + text);
-		  sendGenericMessage(senderId);
+          sendMessage(senderId, "Xin chào bạn, tôi có thể giúp gì cho bạn?");
+		  //sendGenericMessage(senderId);
         }
       }
     }
