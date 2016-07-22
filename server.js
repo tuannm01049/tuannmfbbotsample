@@ -39,7 +39,7 @@ app.post('/webhook', function(req, res) {
         if (message.message.text) {
           var text = message.message.text;
           console.log(text); // In tin nhắn người dùng
-          sendMessage(senderId, "Xin chào bạn, tôi có thể giúp gì cho bạn?");
+          sendMessage(senderId, "Xin chào bạn, tôi có thể giúp gì cho bạn???");
 		  //sendGenericMessage(senderId);
         }
       }
@@ -55,7 +55,7 @@ function sendMessage(senderId, message) {
   request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
     qs: {
-      access_token: "EAANvzUCgqTYBAH7yZBhWZAfpmRomEEXQohxNCvZAcnaEsFrHZCXYdRntJ1ZAyRZCeyxOfmVxneLxpM9fu3wGenPVhehfUSQJnwPwGukEdcxedAl0B6h4ezIEaEbrjkEgBoPIV13qZBWHwvQOOkq4CIE0Sq7ybsP3rEfGLIMO0pcDwZDZD",
+      access_token: "EAANvzUCgqTYBAGOFMI8XIrrEjNdpySOZCjltD3v2vaCofEl0LVpHZB60T7fRLU5PrR0QcTghSxtyeW4ABzHHFAm49REOUGlv1qBoLFKu3Hk1MfQciwdhcEA35A3vGKhZCsf5BL1AdYd4RAJTBmy6MXdauYbFHJM5OICsZA4E0wZDZD",
     },
     method: 'POST',
     json: {
@@ -70,7 +70,7 @@ function sendMessage(senderId, message) {
 }
 
 function sendGenericMessage(sender) {
-    messageData = {
+    var messageData = {
         "attachment": {
             "type": "template",
             "payload": {
@@ -100,10 +100,10 @@ function sendGenericMessage(sender) {
                 }]
             }
         }
-    }
+    };
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token: "EAANvzUCgqTYBAOpSQLWhNMvFNA2QZAquBeFfkd57dHeH1jgcm5gWQ2wjv2AP9t1fwO1VCNjA6zXwCrbGWFgosjMXXlEa7Vo375a0fB96CVY1uY0ulzP6wyClL7OKujv39Igc4x74VdCIIJVZBYZAcLXYDwfqyBZCfrJgZBSoqsgZDZD"},
+        qs: {access_token: "EAANvzUCgqTYBAGOFMI8XIrrEjNdpySOZCjltD3v2vaCofEl0LVpHZB60T7fRLU5PrR0QcTghSxtyeW4ABzHHFAm49REOUGlv1qBoLFKu3Hk1MfQciwdhcEA35A3vGKhZCsf5BL1AdYd4RAJTBmy6MXdauYbFHJM5OICsZA4E0wZDZD"},
         method: 'POST',
         json: {
             recipient: {id:sender},
@@ -115,7 +115,7 @@ function sendGenericMessage(sender) {
         } else if (response.body.error) {
             console.log('Error: ', response.body.error)
         }
-    })
+    });
 }
 
 app.set('port', process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3002);
